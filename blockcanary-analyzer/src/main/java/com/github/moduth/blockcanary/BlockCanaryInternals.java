@@ -116,15 +116,8 @@ public final class BlockCanaryInternals {
     }
 
     static String getPath() {
-        String state = Environment.getExternalStorageState();
-        String logPath = BlockCanaryInternals.getContext()
-                == null ? "" : BlockCanaryInternals.getContext().providePath();
-
-        if (Environment.MEDIA_MOUNTED.equals(state)
-                && Environment.getExternalStorageDirectory().canWrite()) {
-            return Environment.getExternalStorageDirectory().getPath() + logPath;
-        }
-        return getContext().provideContext().getFilesDir() + BlockCanaryInternals.getContext().providePath();
+        File logDir = new File(getContext().provideContext().getExternalFilesDir(null), BlockCanaryInternals.getContext().providePath());
+        return logDir.getAbsolutePath();
     }
 
     static File detectedBlockDirectory() {
